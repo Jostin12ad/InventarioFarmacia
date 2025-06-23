@@ -76,7 +76,8 @@ Este sistema está diseñado para administrar el inventario de medicamentos en u
 Ejecutar en consola desde la raíz del proyecto:
 
 ```bash
-javac -d bin src/**/*.java
+javac -d bin (Get-ChildItem -Recurse -Filter *.java -Path .\src | ForEach-Object { $_.FullName })
+
 ```
 
 Esto compila todo el código desde la carpeta `src` y lo deposita en `bin`.
