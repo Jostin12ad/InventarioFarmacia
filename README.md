@@ -1,120 +1,82 @@
-🩺 Sistema de Gestión de Farmacia
-🎯 Objetivo General
-Desarrollar un proyecto en Java estándar que integre de forma práctica patrones de diseño GoF, aplicándolos en una solución funcional, con justificación técnica clara y una defensa oral argumentada.
+# 🩺 Sistema de Gestión de Farmacia
 
-📝 Descripción General del Sistema
-Este sistema está diseñado para administrar el inventario de medicamentos en una farmacia comunitaria. Permite registrar diferentes tipos de medicamentos, controlar el stock, gestionar fechas de vencimiento, realizar ventas, generar alertas automatizadas y mantener un historial de transacciones.
+## 🎯 Objetivo General  
+Desarrollar un proyecto en Java estándar que integre de forma práctica los patrones de diseño GoF, aplicándolos en una solución funcional, con una justificación técnica clara y una defensa oral argumentada.
 
-El problema real que aborda es la gestión ineficiente del inventario, ya que en muchas farmacias este proceso se realiza de forma manual, lo que genera errores, desorden y falta de trazabilidad. Este sistema mejora la precisión, facilita la operación diaria y permite mantener un inventario ordenado, actualizado y auditado.
+---
 
-🧩 Patrones de Diseño Aplicados
-🏭 1. Factory Method (Creacional)
-¿Por qué?
-El sistema debe manejar diferentes tipos de medicamentos (genéricos, controlados, refrigerados), cada uno con sus particularidades. Para evitar una dependencia directa entre el código cliente y las clases concretas, y permitir futuras extensiones, se utiliza el patrón Factory Method.
+## 📝 Descripción General del Sistema  
+Este sistema está diseñado para administrar el inventario de medicamentos en una farmacia comunitaria. Permite:
 
-¿Cómo?
-Se implementa una clase fábrica llamada FabricaMedicamentos que recibe los parámetros comunes (nombre, stock, fecha de vencimiento, precio, tipo) y decide qué subclase de Medicamento instanciar.
+- Registrar diferentes tipos de medicamentos  
+- Controlar el stock  
+- Gestionar fechas de vencimiento  
+- Realizar ventas  
+- Generar alertas automatizadas  
+- Mantener un historial de transacciones
 
-¿Dónde?
-En el método agregarMedicamento() dentro de la clase principal (Main), donde se crea un nuevo medicamento según el tipo indicado por el usuario.
+*Problema que resuelve:*  
+Muchas farmacias llevan el control de su inventario de forma manual, lo que provoca errores, desorden y falta de trazabilidad. Este sistema mejora la precisión, facilita la operación diaria y mantiene un inventario ordenado, actualizado y auditable.
 
-🎁 2. Decorator (Estructural)
-¿Por qué?
-Durante la venta puede requerirse funcionalidad adicional sin modificar la clase base VentaSimple, como por ejemplo marcar una venta como urgente. El patrón Decorator permite extender dinámicamente el comportamiento sin alterar el código original.
+---
 
-¿Cómo?
-La clase VentaImportante implementa la interfaz OperacionDeVenta, envolviendo una instancia de VentaSimple. Al ejecutar, agrega mensajes adicionales antes o después del proceso normal de venta.
+## 🧩 Patrones de Diseño Aplicados
 
-¿Dónde?
-En el método realizarVenta() del Main, donde se evalúa si la venta es urgente y, en tal caso, se decora dinámicamente la operación de venta con la clase VentaImportante.
+### 🏭 1. Factory Method (Creacional)
+*¿Por qué?*  
+Se requiere manejar distintos tipos de medicamentos (genéricos, controlados, refrigerados), cada uno con características propias. Para evitar la dependencia directa con las clases concretas y facilitar futuras extensiones, se utiliza el patrón Factory Method.
 
-👁️ 3. Observer (Comportamental)
-¿Por qué?
-El sistema debe emitir alertas cuando hay stock bajo o fechas de vencimiento próximas. Para desacoplar el inventario de las alertas y permitir la notificación de múltiples observadores, se utiliza el patrón Observer.
+*¿Cómo?*  
+Se implementa una clase fábrica FabricaMedicamentos, que recibe los datos del medicamento y retorna una instancia del tipo correspondiente.
 
-¿Cómo?
-SistemaAlerta actúa como sujeto (Subject) que mantiene una lista de observadores (AlertaStock, AlertaVencimiento). Cuando se modifica el stock, se notifica automáticamente a los observadores con el medicamento afectado.
+*¿Dónde?*  
+En el método agregarMedicamento() dentro de Main, donde se instancia el medicamento según el tipo indicado.
 
-¿Dónde?
-En el método realizarVenta(), una vez realizada la operación, se invoca sistemaAlerta.notificar(medicamento) para verificar posibles condiciones de alerta.
+---
 
-🔄 4. Iterator (Libre elección)
-¿Por qué?
+### 🎁 2. Decorator (Estructural)
+*¿Por qué?*  
+Al realizar ventas, puede requerirse funcionalidad adicional (como marcar una venta como urgente) sin modificar la clase base VentaSimple. El patrón Decorator permite extender dinámicamente el comportamiento.
+
+*¿Cómo?*  
+La clase VentaImportante implementa la interfaz OperacionDeVenta y envuelve una instancia de VentaSimple. Agrega mensajes o procesos antes o después de la venta.
+
+*¿Dónde?*  
+En el método realizarVenta() de Main, si la venta es urgente se utiliza VentaImportante para decorarla.
+
+---
+
+### 👁 3. Observer (Comportamental)
+*¿Por qué?*  
+El sistema debe generar alertas cuando hay stock bajo o vencimientos próximos. Para desacoplar la lógica del inventario de las alertas, se utiliza Observer.
+
+*¿Cómo?*  
+SistemaAlerta actúa como sujeto (Subject) y mantiene una lista de observadores (AlertaStock, AlertaVencimiento). Cuando se modifica el stock, notifica automáticamente a los observadores.
+
+*¿Dónde?*  
+En realizarVenta(), después de completar la venta se ejecuta sistemaAlerta.notificar(medicamento) para comprobar si se deben generar alertas.
+
+---
+
+### 🔄 4. Iterator (Libre elección)
+*¿Por qué?*  
 El inventario contiene una colección de medicamentos que no debe ser expuesta directamente. Para recorrerla de manera segura y encapsulada, se utiliza el patrón Iterator.
 
-¿Cómo?
-La clase Inventario implementa el método crearIterador(), que devuelve un objeto IteradorMedicamentos con métodos como tieneSiguiente() y siguiente() para recorrer los elementos uno por uno.
+*¿Cómo?*  
+La clase Inventario implementa el método crearIterador(), que devuelve un objeto IteradorMedicamentos con métodos como tieneSiguiente() y siguiente().
 
-¿Dónde?
-Se usa en mostrarMedicamentos() y en simularAlertas() para recorrer todos los medicamentos sin acceder directamente a la estructura de datos interna.
+*¿Dónde?*  
+Se utiliza en métodos como mostrarMedicamentos() y simularAlertas() para recorrer los medicamentos sin acceder directamente a la estructura interna.
 
-⚙️ Instrucciones de Compilación y Ejecución
-Compilación
+---
+
+## ⚙ Instrucciones de Compilación y Ejecución
+
+### 🛠 Compilación  
 Desde la raíz del proyecto, ejecutar en consola:
 
-bash
-Copiar
-Editar
-javac -d bin src/**/*.java
-Este comando compila todos los archivos .java ubicados dentro de la carpeta src y subcarpetas, y coloca los .class en la carpeta bin.
-
-Ejecución
-Una vez compilado, ejecutar:
-
-bash
-Copiar
-Editar
-java -cp bin Main
-Esto ejecuta el sistema desde la clase principal.
-
-📁 Estructura del Proyecto
-css
-Copiar
-Editar
-INVENTARIOFARMACIA
-├── bin/
-├── img/
-├── src/
-│   ├── modelos/
-│   │   ├── Inventario.java
-│   │   ├── Medicamento.java
-│   │   ├── MedicamentoControlado.java
-│   │   ├── MedicamentoGenerico.java
-│   │   ├── MedicamentoRefrigerado.java
-│   │   ├── RegistroVenta.java
-│   ├── patrones/
-│   │   ├── decorator/
-│   │   │   ├── OperacionDeVenta.java
-│   │   │   ├── VentaImportante.java
-│   │   │   ├── VentaSimple.java
-│   │   ├── Factorymethod/
-│   │   │   ├── FabricaMedicamentos.java
-│   │   ├── iterator/
-│   │   │   ├── ColeccionMedicamentos.java
-│   │   │   ├── IteradorMedicamentos.java
-│   │   ├── observer/
-│   │       ├── AlertaStock.java
-│   │       ├── AlertaVencimiento.java
-│   │       ├── Observer.java
-│   │       ├── SistemaAlerta.java
-│   │       ├── Subject.java
-├── Main.java
-💻 Interacción por Consola (CMD)
-El programa se ejecuta en consola y ofrece el siguiente menú interactivo:
-
-Registrar medicamentos
-
-Realizar ventas
-
-Mostrar inventario
-
-Buscar medicamentos
-
-Simular alertas por stock o vencimiento
-
-Mostrar historial de ventas
-
-Salir del sistema
+```bash
+javac -d bin src//*.java
 
 
 
