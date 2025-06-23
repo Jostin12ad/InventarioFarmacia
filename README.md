@@ -58,9 +58,42 @@ La clase inventario provee un metodo creariterator que devuelve un objeto iterad
 
 al momento de generar la carpeta BIN con este comando ejecutariamos en consola java -cp bin Main
 
-2) Estructura del proyecto: tenemos codigo fuente en src, archivos compilados en carpeta BIN y clases organizadas segun su funcionalidad(Modelos, patrones etc...)
+2) Estructura del proyecto:
+3) INVENTARIOFARMACIA
+├── bin/
+├── img/
+├── src/
+│   ├── modelos/
+│   │   ├── Inventario.java
+│   │   ├── Medicamento.java
+│   │   ├── MedicamentoControlado.java
+│   │   ├── MedicamentoGenerico.java
+│   │   ├── MedicamentoRefrigerado.java
+│   │   ├── RegistroVenta.java
+│   │
+│   ├── patrones/
+│       ├── decorator/
+│       │   ├── OperacionDeVenta.java
+│       │   ├── VentaImportante.java
+│       │   ├── VentaSimple.java
+│       │
+│       ├── Factorymethod/
+│       │   ├── FabricaMedicamentos.java
+│       │
+│       ├── iterator/
+│       │   ├── ColeccionMedicamentos.java
+│       │   ├── IteradorMedicamentos.java
+│       │
+│       ├── observer/
+│           ├── AlertaStock.java
+│           ├── AlertaVencimiento.java
+│           ├── Observer.java
+│           ├── SistemaAlerta.java
+│           ├── Subject.java
+│
+├── Main.java
 
-3) Interaccion el programa se ejecuta por CMD (Consola)
+4) Interaccion el programa se ejecuta por CMD (Consola)
 contiene: registrar medicamentos
 Realizar ventas
 Mostrar inventarios
